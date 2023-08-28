@@ -1,11 +1,10 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const path = require('path');
 const PORT = process.env.PORT || 8000;
 
-app.use(cors())
-
-const path = require('path'); // Import the path module
+app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'images'))); // Serve static files from the 'images' directory
 
@@ -13,21 +12,15 @@ app.get('/', (request, response) => {
     response.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// ...
-
-app.use(express.static('images')); // Serving images
-app.use(express.static('public')); // Serving other static files (like JavaScript)
-
-app.get('/', (request, response) => {
-    response.sendFile(path.join(__dirname, 'index.html'));
-});
-
 // Serve the main.js file with the appropriate MIME type
 app.get('/main.js', (request, response) => {
+    response.setHeader('Content-Type', 'application/javascript'); // Set the Content-Type header
     response.sendFile(path.join(__dirname, 'main.js'));
 });
 
+// Serve the style.css file with the appropriate MIME type
 app.get('/style.css', (request, response) => {
+    response.setHeader('Content-Type', 'text/css'); // Set the Content-Type header
     response.sendFile(path.join(__dirname, 'style.css'));
 });
 
