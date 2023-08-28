@@ -5,6 +5,24 @@ const PORT = 8000
 
 app.use(cors())
 
+const path = require('path'); // Import the path module
+
+// ...
+
+app.use(express.static('images')); // Serving images
+app.use(express.static('public')); // Serving other static files (like JavaScript)
+
+app.get('/', (request, response) => {
+    response.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Serve the main.js file with the appropriate MIME type
+app.get('/main.js', (request, response) => {
+    response.sendFile(path.join(__dirname, 'main.js'));
+});
+
+
+
 let seinfeldQuotes = [ 
    
 
@@ -525,7 +543,7 @@ let seinfeldQuotes = [
     },
 ]
 
-app.use(express.static('images'));
+
 
 app.get('/', (request, response) => {
     response.sendFile(__dirname + '/index.html')
