@@ -1,11 +1,17 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const PORT = 8000
+const PORT = process.env.PORT || 8000;
 
 app.use(cors())
 
 const path = require('path'); // Import the path module
+
+app.use(express.static(path.join(__dirname, 'images'))); // Serve static files from the 'images' directory
+
+app.get('/', (request, response) => {
+    response.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // ...
 
@@ -21,6 +27,9 @@ app.get('/main.js', (request, response) => {
     response.sendFile(path.join(__dirname, 'main.js'));
 });
 
+app.get('/style.css', (request, response) => {
+    response.sendFile(path.join(__dirname, 'style.css'));
+});
 
 
 let seinfeldQuotes = [ 
