@@ -3,7 +3,7 @@ document.querySelector('button').addEventListener('click', getQuote)
 
  function getQuote(){
 
-	fetch( "http://localhost:8000/api/random")
+	fetch( "https://seinfeld-quotes-api-9e3f304f1eda.herokuapp.com/api/random")
 		.then(res => res.json()) 
 		.then(data => {
 			console.log (data);
