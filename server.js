@@ -347,7 +347,7 @@ let seinfeldQuotes = [
     {
         'quote': '“I’m disturbed, I’m depressed, I’m inadequate. I’ve got it all!”',
         'name': 'George Castanza',
-        'img': 'images/george.jpg'
+        'img': 'public/images/george.jpg'
     },
     {
         'quote': '“I feel like my old self again. Totally inadequate, completely insecure, paranoid, neurotic. It’s a pleasure.”',
