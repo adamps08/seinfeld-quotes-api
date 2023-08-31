@@ -509,57 +509,57 @@ let seinfeldQuotes = [
     },
     //Jackie Chiles
     {
-        'quote': `Jackie: “Your face is my case.”`
+        'quote': `Jackie: “Your face is my case.”`,
         'name': 'Jackie Chiles',
         'img': 'public/images/jackie.jpg'
     },
     {
-        'quote': `Jackie: “You put the balm on? Who told you to put the balm on? I didn’t tell you to put the balm on. Why’d you put the balm on? You haven’t even been to see the doctor. If you’re gonna put a balm on, let a doctor put a balm on. ”`
+        'quote': `Jackie: “You put the balm on? Who told you to put the balm on? I didn’t tell you to put the balm on. Why’d you put the balm on? You haven’t even been to see the doctor. If you’re gonna put a balm on, let a doctor put a balm on. ”`,
         'name': 'Jackie Chiles',
         'img': 'public/images/jackie.jpg'
     },
     {
-        'quote': `Jackie: “That’s totally inappropriate. It’s lewd, lascivious, salacious, outrageous!”`
+        'quote': `Jackie: “That’s totally inappropriate. It’s lewd, lascivious, salacious, outrageous!”`,
         'name': 'Jackie Chiles',
         'img': 'public/images/jackie.jpg'
     },
     {
-        'quote': `Jackie: “Jackie Chiles: Who told you to put the cheese on? Did I tell you to put the cheese on? I didn't tell you to put the cheese on.”`
+        'quote': `Jackie: “Jackie Chiles: Who told you to put the cheese on? Did I tell you to put the cheese on? I didn't tell you to put the cheese on.”`,
         'name': 'Jackie Chiles',
         'img': 'public/images/jackie.jpg'
     },
     {
-        'quote': `Jackie: “I am shocked and chagrined, mortified and stupefied!”`
+        'quote': `Jackie: “I am shocked and chagrined, mortified and stupefied!”`,
         'name': 'Jackie Chiles',
         'img': 'public/images/jackie.jpg'
     },
     {
-        'quote': `Jackie: “Now, when you took a sip, did you notice it was hot? Were you able to sip it in your normal fashion?”`
+        'quote': `Jackie: “Now, when you took a sip, did you notice it was hot? Were you able to sip it in your normal fashion?”`,
         'name': 'Jackie Chiles',
         'img': 'public/images/jackie.jpg'
     },
     {
-        'quote': `Jackie: “It's an infringement on your constitutional rights. It's outrageous, egregious, preposterous! ”`
+        'quote': `Jackie: “It's an infringement on your constitutional rights. It's outrageous, egregious, preposterous!”`,
         'name': 'Jackie Chiles',
         'img': 'public/images/jackie.jpg'
     },
     {
-        'quote': `Jackie: “That's deplorable, unfathomable, improbable!”`
+        'quote': `Jackie: “That's deplorable, unfathomable, improbable!”`,
         'name': 'Jackie Chiles',
         'img': 'public/images/jackie.jpg'
     },
     {
-        'quote': `Jackie: “Rugged? The man's a goblin. He’s only been exposed to smoke for 4 days…by the time this case goes to trial; he’ll be nothing more than a shrunken head.”`
+        'quote': `Jackie: “Rugged? The man's a goblin. He’s only been exposed to smoke for 4 days…by the time this case goes to trial; he’ll be nothing more than a shrunken head.”`,
         'name': 'Jackie Chiles',
         'img': 'public/images/jackie.jpg'
     },
     {
-        'quote': `Jackie: “YOU DON'T HAVE TO HELP ANYBODY. THAT'S WHAT THIS COUNTRY'S ALL ABOUT!”`
+        'quote': `Jackie: “YOU DON'T HAVE TO HELP ANYBODY. THAT'S WHAT THIS COUNTRY'S ALL ABOUT!”`,
         'name': 'Jackie Chiles',
         'img': 'public/images/jackie.jpg'
     },
     {
-        'quote': `Jackie: “This is the most public yet of my many humilitations.”`
+        'quote': `Jackie: “This is the most public yet of my many humilitations.”`,
         'name': 'Jackie Chiles',
         'img': 'public/images/jackie.jpg'
     },
