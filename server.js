@@ -549,7 +549,8 @@ let seinfeldQuotes = [
         'img': 'public/images/jackie.jpg'
     },
     {
-        'quote': `Jackie: “Rugged? The man's a goblin. He’s only been exposed to smoke for 4 days…by the time this case goes to trial; he’ll be nothing more than a shrunken head.”`,
+        'quote': `Jackie: “Rugged? The man's a goblin. He’s only been exposed to smoke for 4 days…
+                            by the time this case goes to trial; he’ll be nothing more than a shrunken head.”`,
         'name': 'Jackie Chiles',
         'img': 'public/images/jackie.jpg'
     },
@@ -580,7 +581,9 @@ let seinfeldQuotes = [
         'img': 'public/images/frank.jpg'
     },
     {
-        'quote': `“Many Christmas' ago, I went to buy a doll for my son. I reached for the last one they had, but so did another man. As I rained blows upon, I realized there had to be another way.”`,
+        'quote': `“Many Christmas' ago, I went to buy a doll for my son. 
+                   I reached for the last one they had, but so did another man. 
+                   As I rained blows upon, I realized there had to be another way.”`,
         'name': 'Frank Costanza',
         'img': 'public/images/frank.jpg'
     },
