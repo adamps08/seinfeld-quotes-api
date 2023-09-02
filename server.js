@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 const path = require('path');
 const PORT = process.env.PORT || 8000;
-const seinfeldQuotes = require('./seinfelQuotes');
+const seinfeldQuotes = require('./seinfeldQuotes');
 
 app.use(cors());
 
