@@ -2,12 +2,76 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const path = require('path');
+const mongoose = require('mongoose');
 const PORT = process.env.PORT || 8000;
 const seinfeldQuotes = require('./seinfeldQuotes');
+const MongoClient = require('mongodb').MongoClient; 
+require('dotenv').config()
+
+//updating quotes
+
+const addLikes = seinfeldQuotes.map(quote => {
+    return {...quote, likes: 0}; 
+})
+//  let nextId = 1;
+//  const addId = seinfeldQuotes.map(quote => {
+//      givenId = {...quote, id: nextId }
+//      nextId++
+//      return givenId
+//  })
+
+//mongo db
+
+let db,
+dbConnectionStr = process.env.DB_STRING,
+dbName = 'seinfeld-quotes'
+
+// MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
+//     .then(client => {
+//        console.log(`Connected to ${dbName} Database`)
+//        db = client.db(dbName)
+//     })
+
+async function insertQuotesIntoMongoDB() {
+    const client = new MongoClient(dbConnectionStr, { useUnifiedTopology: true });
+
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        const quotesCollection = db.collection('quotes');
+
+        for (const quote of addLikes) {
+            // Use the quote field for matching
+            await quotesCollection.updateOne(
+                { quote: quote.quote },
+                { $set: quote },
+                { upsert: true }
+            );
+
+            console.log(`Quote added/updated: ${quote.quote}`);
+        }
+
+        console.log('Quotes inserted/updated into MongoDB successfully');
+    } catch (error) {
+        console.error('Error inserting/updating quotes into MongoDB:', error);
+    } finally {
+        client.close();
+    }
+}
+
+insertQuotesIntoMongoDB()
+
+
+    app.set('view engine', 'ejs')
+    app.use(express.static('public'))
+    app.use(express.urlencoded({ extended: true }))
+    app.use(express.json())
 
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from the 'images' directory
+
+//crud
 
 app.get('/', (request, response) => {
     response.sendFile(path.join(__dirname, 'index.html'));
@@ -45,6 +109,13 @@ app.get('/api/quotes', (request, response) => {
 
 
 
+
+
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
+
+
 // app.get('/api/quotes', (request, response) => {
 //     response.json(seinfeldQuotes)
 // })
@@ -70,7 +141,3 @@ app.get('/api/quotes', (request, response) => {
 //         response.json(rappers['unknown'])
 //     }
 // })
-
-app.listen(process.env.PORT || PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-})
