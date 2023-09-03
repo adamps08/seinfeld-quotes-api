@@ -165,14 +165,14 @@ app.put('/addOneLike', (request, response) => {
         console.error(error);
         response.status(500).json({ error: 'Error updating likes' });
       });
-  });
+});
     // .then(result => {
     //      console.log('Added One Like')
     //      response.json('Like Added')
     //  })
     //  .catch(error => console.error(error))
 
- })
+
 
 // app.put('/addOneLike', (request, response) => {
 //     const { quoteS, authorS } = request.body;
