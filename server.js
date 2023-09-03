@@ -1,11 +1,11 @@
+const MongoClient = require('mongodb').MongoClient; 
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
 const path = require('path');
-const mongoose = require('mongoose');
 const PORT = process.env.PORT || 8000;
 const seinfeldQuotes = require('./seinfeldQuotes');
-const MongoClient = require('mongodb').MongoClient; 
 require('dotenv').config()
 
 //updating quotes
@@ -22,44 +22,79 @@ const addLikes = seinfeldQuotes.map(quote => {
 
 //mongo db
 
-let db,
-dbConnectionStr = process.env.DB_STRING,
+let db
+let dbClinet
+dbConnectionStr = process.env.DB_STRING
 dbName = 'seinfeld-quotes'
 
- MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
-     .then(client => {
-        console.log(`Connected to ${dbName} Database`)
-        db = client.db(dbName)
-     })
-
-async function insertQuotesIntoMongoDB() {
-    const client = new MongoClient(dbConnectionStr, { useUnifiedTopology: true });
-
+async function connectToMongoDB() {
     try {
-        await client.connect();
-        const db = client.db(dbName);
-        const quotesCollection = db.collection('quotes');
-
-        for (const quote of addLikes) {
-            // Use the quote field for matching
-            await quotesCollection.updateOne(
-                { quote: quote.quote },
-                { $set: quote },
-                { upsert: true }
-            );
-
-            // console.log(`Quote added/updated: ${quote.quote}`);
-        }
-
-        console.log('Quotes inserted/updated into MongoDB successfully');
+        const client = await MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true });
+        console.log(`Connected to ${dbName} Database`);
+        return client.db(dbName); // Return the database instance
     } catch (error) {
-        console.error('Error inserting/updating quotes into MongoDB:', error);
-    } finally {
-        client.close();
+        console.error('Error connecting to MongoDB:', error);
+        throw error;
     }
 }
 
-insertQuotesIntoMongoDB()
+// Middleware to ensure a MongoDB connection is available
+const ensureDbConnection = async (req, res, next) => {
+    if (!db || !db.serverConfig.isConnected()) {
+        try {
+            db = await connectToMongoDB(); // Reconnect to MongoDB if not connected
+        } catch (error) {
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+    next();
+};
+
+//  MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
+//      .then(client => {
+//         console.log(`Connected to ${dbName} Database`)
+//         db = client.db(dbName)
+//      })
+// // Middleware to ensure a MongoDB connection is available
+//      const ensureDbConnection = async (req, res, next) => {
+//         if (!dbClient || !dbClient.isConnected()) {
+//           try {
+//             await connectToDatabase(); // Reconnect to MongoDB if not connected
+//           } catch (error) {
+//             return res.status(500).json({ error: 'Internal server error' });
+//           }
+//         }
+//         next();
+//       };
+
+// async function insertQuotesIntoMongoDB() {
+//     const client = new MongoClient(dbConnectionStr, { useUnifiedTopology: true });
+
+//     try {
+//         await client.connect();
+//         const db = client.db(dbName);
+//         const quotesCollection = db.collection('quotes');
+
+//         for (const quote of addLikes) {
+//             // Use the quote field for matching
+//             await quotesCollection.updateOne(
+//                 { quote: quote.quote },
+//                 { $set: quote },
+//                 { upsert: true }
+//             );
+
+//             // console.log(`Quote added/updated: ${quote.quote}`);
+//         }
+
+//         console.log('Quotes inserted/updated into MongoDB successfully');
+//     } catch (error) {
+//         console.error('Error inserting/updating quotes into MongoDB:', error);
+//     } finally {
+//         client.close();
+//     }
+// }
+
+// insertQuotesIntoMongoDB()
 
 //server static files
     app.set('view engine', 'ejs')
@@ -72,11 +107,6 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from the 'images' directory
 
 //crud
-
- app.get('/', (request, response) => {
-    response.sendFile(path.join(__dirname, 'index.html'));
-});
-
 
 // Serve the main.js file with the appropriate MIME type
 app.get('/main.js', (request, response) => {
@@ -91,9 +121,10 @@ app.get('/style.css', (request, response) => {
 });
 
 
- app.get('/', (request, response) => {
-    response.sendFile(__dirname + '/index.html')
- })
+app.get('/', (request, response) => {
+    response.sendFile(path.join(__dirname, 'index.html'));
+});
+
 
  app.get('/api/quotes', async (request, response) => {
     try {
