@@ -150,13 +150,14 @@ app.get('/api/random', async (request, response) => {
          sort: {_id: -1},
          upsert: true
      })
-m    .then(result => {
+g    .then(result => {
          console.log('Added One Like')
          response.json('Like Added')
      })
      .catch(error => console.error(error))
 
-// })
+ })
+
 // app.put('/addOneLike', (request, response) => {
 //     const { quoteS, authorS } = request.body;
 //     // Find the quote by quote and author and increment the likes
