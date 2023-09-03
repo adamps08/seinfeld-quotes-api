@@ -142,57 +142,58 @@ app.get('/api/random', async (request, response) => {
 
 //add likes
 
-app.put('/addOneLike', async (request, response) => {
-    try {
-      const { _id } = request.body;
-      const quote = await db.collection('quotes').findOne({ _id });
+// app.put('/addOneLike', async (request, response) => {
+//     try {
+//       const { _id } = request.body;
+//       const quote = await db.collection('quotes').findOne({ _id });
   
-      if (!quote) {
-        response.status(404).json({ error: 'Quote not found' });
-        return;
-      }
-  
-      const updatedLikes = quote.likes + 1;
-  
-      await db.collection('quotes').updateOne({ _id }, { $set: { likes: updatedLikes } });
-  
-      response.json({ likes: updatedLikes });
-    } catch (error) {
-      console.error(error);
-      response.status(500).json({ error: 'Error updating likes' });
-    }
-  });
-// app.put('/addOneLike', (request, response) => {
-//     const { quoteS, authorS } = request.body;
-//     db.collection('quotes').updateOne(
-//       { quote: quoteS, author: authorS },
-//       {
-//         $inc: { likes: 1 }, // Increment the likes by 1
+//       if (!quote) {
+//         response.status(404).json({ error: 'Quote not found' });
+//         return;
 //       }
-//     )
-//       .then((result) => {
-//         if (result.modifiedCount > 0) {
-//           console.log('Added One Like');
-//           // Fetch the updated quote data
-//           db.collection('quotes')
-//             .findOne({ quote: quoteS, author: authorS })
-//             .then((updatedQuote) => {
-//               response.json({ likes: updatedQuote.likes });
-//             })
-//             .catch((error) => {
-//               console.error(error);
-//               response.status(500).json({ error: 'Error fetching updated data' });
-//             });
-//         } else {
-//           console.log('No document matched for update.');
-//           response.status(500).json({ error: 'Error updating likes' });
-//         }
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//         response.status(500).json({ error: 'Error updating likes' });
-//       });
+  
+//       const updatedLikes = quote.likes + 1;
+  
+//       await db.collection('quotes').updateOne({ _id }, { $set: { likes: updatedLikes } });
+  
+//       response.json({ likes: updatedLikes });
+//     } catch (error) {
+//       console.error(error);
+//       response.status(500).json({ error: 'Error updating likes' });
+//     }
 //   });
+app.put('/addOneLike', (request, response) => {
+    const { _id } = request.body;
+    db.collection('quotes')
+      .updateOne(
+        { _id },
+        {
+          $inc: { likes: 1 }, // Increment the likes by 1
+        }
+      )
+      .then((result) => {
+        if (result.modifiedCount > 0) {
+          console.log('Added One Like');
+          // Fetch the updated quote data
+          db.collection('quotes')
+            .findOne({ _id }) // Use _id here
+            .then((updatedQuote) => {
+              response.json({ likes: updatedQuote.likes });
+            })
+            .catch((error) => {
+              console.error(error);
+              response.status(500).json({ error: 'Error fetching updated data' });
+            });
+        } else {
+          console.log('No document matched for update.');
+          response.status(500).json({ error: 'Error updating likes' });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        response.status(500).json({ error: 'Error updating likes' });
+      });
+  });
     // .then(result => {
     //      console.log('Added One Like')
     //      response.json('Like Added')
