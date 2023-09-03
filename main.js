@@ -94,7 +94,7 @@ async function addLike(){
   const currentAuthor = document.querySelector('h3').innerText;
   const currentLikes = Number(document.querySelector('.likeAmount').innerText)
   try{
-      const response = await fetch('https://seinfeld-quotes-api.cyclic.app/api/random/addOneLike', {
+      const response = await fetch('https://seinfeld-quotes-api.cyclic.app/addOneLike', {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -105,7 +105,7 @@ async function addLike(){
         })
       const data = await response.json()
       console.log(data)
-      location.reload()
+      // location.reload()
 
   }catch(err){
       console.log(err)
