@@ -93,10 +93,11 @@ async function getQuote() {
 
 document.querySelector('.fa-thumbs-up').addEventListener('click', addLike);
 async function addLike(){
-  const currentQuote = document.querySelector('h2').innerText;
-  const currentAuthor = document.querySelector('h3').innerText;
-  const currentLikesElement = document.querySelector('.likeAmount');
-  let currentLikes = parseInt(currentLikesElement.innerText, 10)
+    const currentId = data._id;
+    const currentQuote = document.querySelector('h2').innerText;
+    const currentAuthor = document.querySelector('h3').innerText;
+    const currentLikesElement = document.querySelector('.likeAmount');
+    let currentLikes = parseInt(currentLikesElement.innerText, 10)
   try{
       const response = await fetch('https://seinfeld-quotes-api.cyclic.app/addOneLike', {
           method: 'PUT',
@@ -106,6 +107,7 @@ async function addLike(){
             'quote': currentQuote,
             'img': currentImg,
             'likes': currentLikes,
+            // 'likes': currentLikes + 1,
             'name': currentAuthor
           })
         })

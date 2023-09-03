@@ -142,20 +142,26 @@ app.get('/api/random', async (request, response) => {
 
 //add likes
 app.put('/addOneLike', (request, response) => {
+    const { quoteS, authorS } = request.body;
     db.collection('quotes').updateOne(
-      { _id: request.body._id },
+      { quote: quoteS, author: authorS },
       {
-        $set: {
-          likes: request.body.likesS + 1,
-        },
-      },
-      { sort: { _id: -1 }, upsert: true }
+        $inc: { likes: 1 }, // Increment the likes by 1
+      }
     )
       .then((result) => {
         if (result.modifiedCount > 0) {
           console.log('Added One Like');
-          console.log('Updated like count:', request.body.likesS + 1);
-          response.json({ likes: request.body.likesS + 1 });
+          // Fetch the updated quote data
+          db.collection('quotes')
+            .findOne({ quote: quoteS, author: authorS })
+            .then((updatedQuote) => {
+              response.json({ likes: updatedQuote.likes });
+            })
+            .catch((error) => {
+              console.error(error);
+              response.status(500).json({ error: 'Error fetching updated data' });
+            });
         } else {
           console.log('No document matched for update.');
           response.status(500).json({ error: 'Error updating likes' });
@@ -165,7 +171,7 @@ app.put('/addOneLike', (request, response) => {
         console.error(error);
         response.status(500).json({ error: 'Error updating likes' });
       });
-});
+  });
     // .then(result => {
     //      console.log('Added One Like')
     //      response.json('Like Added')
