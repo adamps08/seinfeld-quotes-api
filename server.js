@@ -1,6 +1,8 @@
 const MongoClient = require('mongodb').MongoClient; 
 const express = require('express');
 const mongoose = require('mongoose');
+
+
 const app = express();
 const cors = require('cors');
 const path = require('path');
@@ -22,50 +24,28 @@ const addLikes = seinfeldQuotes.map(quote => {
 
 //mongo db
 
-let db
-let dbClinet
+let db;
+let dbClinet;
 dbConnectionStr = process.env.DB_STRING
 dbName = 'seinfeld-quotes'
 
-async function connectToMongoDB() {
-    try {
-        const client = await MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true });
-        console.log(`Connected to ${dbName} Database`);
-        return client.db(dbName); // Return the database instance
-    } catch (error) {
-        console.error('Error connecting to MongoDB:', error);
-        throw error;
-    }
-}
 
-// Middleware to ensure a MongoDB connection is available
-const ensureDbConnection = async (req, res, next) => {
-    if (!db || !db.serverConfig.isConnected()) {
-        try {
-            db = await connectToMongoDB(); // Reconnect to MongoDB if not connected
-        } catch (error) {
-            return res.status(500).json({ error: 'Internal server error' });
-        }
-    }
-    next();
-};
-
-//  MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
-//      .then(client => {
-//         console.log(`Connected to ${dbName} Database`)
-//         db = client.db(dbName)
-//      })
-// // Middleware to ensure a MongoDB connection is available
-//      const ensureDbConnection = async (req, res, next) => {
-//         if (!dbClient || !dbClient.isConnected()) {
-//           try {
-//             await connectToDatabase(); // Reconnect to MongoDB if not connected
-//           } catch (error) {
-//             return res.status(500).json({ error: 'Internal server error' });
-//           }
-//         }
-//         next();
-//       };
+  MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
+      .then(client => {
+        console.log(`Connected to ${dbName} Database`)
+         db = client.db(dbName)
+      })
+ // Middleware to ensure a MongoDB connection is available
+      const ensureDbConnection = async (req, res, next) => {
+         if (!dbClient || !dbClient.isConnected()) {
+           try {
+             await connectToDatabase(); // Reconnect to MongoDB if not connected
+           } catch (error) {
+             return res.status(500).json({ error: 'Internal server error' });
+           }
+         }
+         next();
+       };
 
 // async function insertQuotesIntoMongoDB() {
 //     const client = new MongoClient(dbConnectionStr, { useUnifiedTopology: true });
