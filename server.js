@@ -26,11 +26,11 @@ let db,
 dbConnectionStr = process.env.DB_STRING,
 dbName = 'seinfeld-quotes'
 
-// MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
-//     .then(client => {
-//        console.log(`Connected to ${dbName} Database`)
-//        db = client.db(dbName)
-//     })
+ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
+     .then(client => {
+        console.log(`Connected to ${dbName} Database`)
+        db = client.db(dbName)
+     })
 
 async function insertQuotesIntoMongoDB() {
     const client = new MongoClient(dbConnectionStr, { useUnifiedTopology: true });
@@ -48,7 +48,7 @@ async function insertQuotesIntoMongoDB() {
                 { upsert: true }
             );
 
-            console.log(`Quote added/updated: ${quote.quote}`);
+            // console.log(`Quote added/updated: ${quote.quote}`);
         }
 
         console.log('Quotes inserted/updated into MongoDB successfully');
@@ -61,7 +61,7 @@ async function insertQuotesIntoMongoDB() {
 
 insertQuotesIntoMongoDB()
 
-
+//server static files
     app.set('view engine', 'ejs')
     app.use(express.static('public'))
     app.use(express.urlencoded({ extended: true }))
@@ -73,9 +73,10 @@ app.use(express.static(path.join(__dirname, 'public'))); // Serve static files f
 
 //crud
 
-app.get('/', (request, response) => {
+ app.get('/', (request, response) => {
     response.sendFile(path.join(__dirname, 'index.html'));
 });
+
 
 // Serve the main.js file with the appropriate MIME type
 app.get('/main.js', (request, response) => {
@@ -90,24 +91,61 @@ app.get('/style.css', (request, response) => {
 });
 
 
-
-app.get('/', (request, response) => {
+ app.get('/', (request, response) => {
     response.sendFile(__dirname + '/index.html')
-})
+ })
 
+ app.get('/api/quotes', async (request, response) => {
+    try {
+        const quotesCollection = db.collection('quotes'); 
+        const quotesData = await quotesCollection.find({}).toArray();
+        response.json(quotesData);
+    } catch (error) {
+        console.error('Error fetching quotes from MongoDB:', error);
+        response.status(500).json({ error: 'Internal server error' });
+    }
+});
 
-app.get('/api/quotes', (request, response) => {
-    response.json(seinfeldQuotes);
-  });
+app.get('/api/random', async (request, response) => {
+    try {
+        const quotesCollection = db.collection('quotes'); 
+        const count = await quotesCollection.countDocuments();
+        const randomIndex = Math.floor(Math.random() * count);
+        const randomQuote = await quotesCollection.findOne({}, { skip: randomIndex });
+        response.json(randomQuote);
+    } catch (error) {
+        console.error('Error fetching random quote from MongoDB:', error);
+        response.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// app.get('/api/quotes', (request, response) => {
+//     response.json(seinfeldQuotes);
+//   });
   
-  app.get('/api/random', (request, response) => {
-    const randomIndex = Math.floor(Math.random() * seinfeldQuotes.length);
-    const randomQuote = seinfeldQuotes[randomIndex];
-    response.json(randomQuote);
-  });
+//   app.get('/api/random', (request, response) => {
+//     const randomIndex = Math.floor(Math.random() * seinfeldQuotes.length);
+//     const randomQuote = seinfeldQuotes[randomIndex];
+//     response.json(randomQuote);
+//   });
 
+//add likes
+  app.put('/addOneLike', (request, response) => {
+    db.collection('quotes').updateOne({quote: request.body.quoteS,  likes: request.body.likesS},{
+        $set: {
+            likes:request.body.likesS + 1
+          }
+    },{
+        sort: {_id: -1},
+        upsert: true
+    })
+    .then(result => {
+        console.log('Added One Like')
+        response.json('Like Added')
+    })
+    .catch(error => console.error(error))
 
-
+})
 
 
 

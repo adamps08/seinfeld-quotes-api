@@ -73,6 +73,14 @@ h3 {
     font-size: 18px;
     color: #014196af; /* Light gray text color */
 }
+
+.likes {
+    color: #666;
+}
+
+/* #thumbsUpIcon:hover{
+    background-color: #242424;
+} */
 /* button styling */
 button {
     display: inline-block;
@@ -89,7 +97,7 @@ button {
 }
 
 button:hover {
-    background-color: #e0e246cb; /* Darker blue on hover */
+    background-color: #e0e246cb; 
 }
 /* image styling */
 .image img {

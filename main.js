@@ -48,11 +48,15 @@ async function getQuote() {
     const quoteText = document.querySelector('h2');
     const authorText = document.querySelector('h3');
     const quoteImage = document.getElementById('quoteImage');
+    const quoteLikes = document.getElementById('thumbsUpIcon')
+    const likeAmount = document.querySelector('.likeAmount')
 
     // Hide the content with transition
     quoteText.style.opacity = 0;
     authorText.style.opacity = 0;
     quoteImage.style.opacity = 0;
+    quoteLikes.style.opacity = 0;
+    likeAmount.style.opacity = 0;
 
     // Wait for the content to hide
     await new Promise((resolve) => setTimeout(resolve, 500)); // Adjust the time as needed
@@ -61,13 +65,39 @@ async function getQuote() {
     quoteText.innerText = data.quote;
     document.querySelector('img').src = data.img;
     authorText.innerText = data.name;
+    likeAmount.innerText = data.likes;
 
     // Show the content with transition
     quoteText.style.opacity = 1;
     authorText.style.opacity = 1;
     quoteImage.style.opacity = 1;
+    quoteLikes.style.opacity = 1;
+    likeAmount.style.opacity = 1;
 
   } catch (err) {
     console.log(`error ${err}`);
+  }
+}
+
+async function addLike(){
+  const currentQuote = document.querySelector('h2').innerText;
+  const currentAuthor = document.querySelector('h3').innerText;
+  const currentLikes = Number(document.querySelector('.likeAmount').innerText)
+  try{
+      const response = await fetch('addOneLike', {
+          method: 'put',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            'stageNameS': sName,
+            'birthNameS': bName,
+            'likesS': tLikes
+          })
+        })
+      const data = await response.json()
+      console.log(data)
+      location.reload()
+
+  }catch(err){
+      console.log(err)
   }
 }
