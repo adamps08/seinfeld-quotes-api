@@ -150,11 +150,20 @@ app.get('/api/random', async (request, response) => {
          sort: {_id: -1},
          upsert: true
      })
-    .then(result => {
-         console.log('Added One Like')
-         response.json('Like Added')
-     })
-     .catch(error => console.error(error))
+     .then((result) => {
+        console.log('Added One Like');
+        console.log('Updated like count:', request.body.likesS + 1); // Log the updated like count
+        response.json({ likes: request.body.likesS + 1 }); // Send back updated like count
+      })
+      .catch((error) => {
+        console.error(error);
+        response.status(500).json({ error: 'Error updating likes' });
+      });
+    // .then(result => {
+    //      console.log('Added One Like')
+    //      response.json('Like Added')
+    //  })
+    //  .catch(error => console.error(error))
 
  })
 
