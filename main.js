@@ -36,12 +36,20 @@
 // }
 
 /////
+
+const likeButton = document.querySelectorAll('.fa-thumbs-up')
+
+
+// Array.from(likeButton).forEach((element)=>{
+//     element.addEventListener('click', addLike)
+// })
+document.querySelector('.fa-thumbs-up').addEventListener('click', addLike);
 document.querySelector('button').addEventListener('click', getQuote);
 
 async function getQuote() {
   try {
     // const response = await fetch("http://localhost:8000/api/random");
-    const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
+     const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
     // const response = await fetch("https://seinfeld-quotes-api.onrender.com/api/random");
     const data = await response.json();
 
@@ -86,13 +94,13 @@ async function addLike(){
   const currentAuthor = document.querySelector('h3').innerText;
   const currentLikes = Number(document.querySelector('.likeAmount').innerText)
   try{
-      const response = await fetch('addOneLike', {
-          method: 'put',
+      const response = await fetch('/addOneLike', {
+          method: 'PUT',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
-            'stageNameS': sName,
-            'birthNameS': bName,
-            'likesS': tLikes
+            'quoteS': currentQuote,
+            'authorS': currentAuthor,
+            'likesS': currentLikes
           })
         })
       const data = await response.json()

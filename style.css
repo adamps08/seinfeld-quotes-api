@@ -78,9 +78,10 @@ h3 {
     color: #666;
 }
 
-/* #thumbsUpIcon:hover{
-    background-color: #242424;
-} */
+ #thumbsUpIcon:hover{
+    color: #242424;
+} 
+
 /* button styling */
 button {
     display: inline-block;

@@ -142,7 +142,7 @@ app.get('/api/random', async (request, response) => {
 
 //add likes
   app.put('/addOneLike', (request, response) => {
-    db.collection('quotes').updateOne({quote: request.body.quoteS,  likes: request.body.likesS},{
+    db.collection('quotes').updateOne({quote: request.body.quoteS, author: request.body.authorS,  likes: request.body.likesS},{
         $set: {
             likes:request.body.likesS + 1
           }
