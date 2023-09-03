@@ -40,9 +40,8 @@
 const likeButton = document.querySelectorAll('.fa-thumbs-up')
 
 
-// Array.from(likeButton).forEach((element)=>{
-//     element.addEventListener('click', addLike)
-// })
+let currentQuoteData;
+let currentImg;
 
 document.querySelector('button').addEventListener('click', getQuote);
 
@@ -52,7 +51,8 @@ async function getQuote() {
      const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
     // const response = await fetch("https://seinfeld-quotes-api.onrender.com/api/random");
     const data = await response.json();
-
+    currentQuoteData = data;
+    currentImg = data.img;
     console.log(data);
     
     const quoteText = document.querySelector('h2');
@@ -93,7 +93,7 @@ async function getQuote() {
 
 document.querySelector('.fa-thumbs-up').addEventListener('click', addLike);
 async function addLike(){
-    const currentId = data._id;
+    const currentId = currentQuoteData._id;
     const currentQuote = document.querySelector('h2').innerText;
     const currentAuthor = document.querySelector('h3').innerText;
     const currentLikesElement = document.querySelector('.likeAmount');
