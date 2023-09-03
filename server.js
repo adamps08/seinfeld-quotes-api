@@ -141,24 +141,49 @@ app.get('/api/random', async (request, response) => {
 //   });
 
 //add likes
-  app.put('/addOneLike', (request, response) => {
-    db.collection('quotes').updateOne({quote: request.body.quoteS, author: request.body.authorS,  likes: request.body.likesS},{
-        $set: {
-            likes:request.body.likesS + 1
-          }
-    },{
-        sort: {_id: -1},
-        upsert: true
-    })
-    .then(result => {
-        console.log('Added One Like')
-        response.json('Like Added')
-    })
-    .catch(error => console.error(error))
+   app.put('/addOneLike', (request, response) => {
+     db.collection('quotes').updateOne({quote: request.body.quoteS, author: request.body.authorS,  likes: request.body.likesS},{
+         $set: {
+             likes:request.body.likesS + 1
+           }
+     },{
+         sort: {_id: -1},
+         upsert: true
+     })
+m    .then(result => {
+         console.log('Added One Like')
+         response.json('Like Added')
+     })
+     .catch(error => console.error(error))
 
-})
-
-
+// })
+// app.put('/addOneLike', (request, response) => {
+//     const { quoteS, authorS } = request.body;
+//     // Find the quote by quote and author and increment the likes
+//     db.collection('quotes').updateOne(
+//       { quote: quoteS, author: authorS },
+//       {
+//         $inc: { likes: 1 }, // Increment the likes by 1
+//       }
+//     )
+//       .then((result) => {
+//         console.log('Added One Like');
+//         // Fetch the updated quote data
+//         db.collection('quotes')
+//           .findOne({ quote: quoteS, author: authorS })
+//           .then((updatedQuote) => {
+//             response.json({ likes: updatedQuote.likes });
+//           })
+//           .catch((error) => {
+//             console.error(error);
+//             response.status(500).json({ error: 'Error fetching updated data' });
+//           });
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//         response.status(500).json({ error: 'Error updating likes' });
+//       });
+// })
 
 app.listen(process.env.PORT || PORT, () => {
     console.log(`Server running on port ${PORT}`)
