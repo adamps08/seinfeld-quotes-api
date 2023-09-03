@@ -150,7 +150,7 @@ app.get('/api/random', async (request, response) => {
          sort: {_id: -1},
          upsert: true
      })
-g    .then(result => {
+    .then(result => {
          console.log('Added One Like')
          response.json('Like Added')
      })
