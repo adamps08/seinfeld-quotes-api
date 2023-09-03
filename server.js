@@ -131,7 +131,7 @@ app.get('/api/random', async (request, response) => {
 });
 
 
-app.put('/addOneLike', (request, response) => {
+app.put('/api/addOneLike', (request, response) => {
     db.collection('quotes').updateOne(
       { _id: request.body._id }, // Access _id directly
       {
