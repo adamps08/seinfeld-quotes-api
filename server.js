@@ -136,7 +136,7 @@ app.put('/api/addOneLike', (request, response) => {
       { _id: request.body._id }, // Access _id directly
       {
         $set: {
-          likes: request.body.likesS + 1,
+          likes: request.body.likes + 1,
         },
       },
       {
