@@ -25,7 +25,7 @@ const addLikes = seinfeldQuotes.map(quote => {
 //mongo db
 
 let db;
-let dbClinet;
+let dbClient;
 dbConnectionStr = process.env.DB_STRING
 dbName = 'seinfeld-quotes'
 
@@ -131,7 +131,7 @@ app.get('/api/random', async (request, response) => {
 });
 
 
-app.put('/api/addOneLike', (request, response) => {
+app.put('/addOneLike', (request, response) => {
     db.collection('quotes').updateOne(
       { _id: request.body._id }, // Access _id directly
       {
