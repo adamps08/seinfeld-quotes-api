@@ -48,7 +48,7 @@ document.querySelector('button').addEventListener('click', getQuote);
 async function getQuote() {
   try {
     // const response = await fetch("http://localhost:8000/api/random");
-     const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
+    const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
     // const response = await fetch("https://seinfeld-quotes-api.onrender.com/api/random");
     const data = await response.json();
     currentQuoteData = data;
@@ -92,6 +92,7 @@ async function getQuote() {
 
 
 document.querySelector('.fa-thumbs-up').addEventListener('click', addLike);
+
 async function addLike(){
     const currentId = currentQuoteData._id;
     const currentQuote = document.querySelector('h2').innerText;
@@ -107,7 +108,6 @@ async function addLike(){
             'quote': currentQuote,
             'img': currentImg,
             'likes': currentLikes,
-            // 'likes': currentLikes + 1,
             'name': currentAuthor
           })
         })
@@ -115,11 +115,13 @@ async function addLike(){
         if (response.ok) {
           const data = await response.json();
           console.log(data);
-    
-          if (data.likes !== undefined) {
-            currentLikesElement.innerText = data.likes;
+
+          if (data.message === 'Like added') {
+            // Increment the current likes in the DOM by 1
+            const currentLikes = parseInt(currentLikesElement.innerText, 10);
+            currentLikesElement.innerText = currentLikes + 1;
           } else {
-            console.log('Response data.likes is undefined.');
+            console.log('Response message is not as expected.');
           }
         } else {
           console.log('Response status is not OK.');
@@ -127,7 +129,6 @@ async function addLike(){
       } catch (err) {
         console.error(err);
       }
-}
+    }
 
 
-// 

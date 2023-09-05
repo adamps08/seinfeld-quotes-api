@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient; 
 const express = require('express');
 const mongoose = require('mongoose');
-
+const { ObjectId } = require('mongodb');
 
 const app = express();
 const cors = require('cors');
@@ -15,12 +15,6 @@ require('dotenv').config()
 const addLikes = seinfeldQuotes.map(quote => {
     return {...quote, likes: 0}; 
 })
-//  let nextId = 1;
-//  const addId = seinfeldQuotes.map(quote => {
-//      givenId = {...quote, id: nextId }
-//      nextId++
-//      return givenId
-//  })
 
 //mongo db
 
@@ -47,34 +41,7 @@ dbName = 'seinfeld-quotes'
          next();
        };
 
-// async function insertQuotesIntoMongoDB() {
-//     const client = new MongoClient(dbConnectionStr, { useUnifiedTopology: true });
 
-//     try {
-//         await client.connect();
-//         const db = client.db(dbName);
-//         const quotesCollection = db.collection('quotes');
-
-//         for (const quote of addLikes) {
-//             // Use the quote field for matching
-//             await quotesCollection.updateOne(
-//                 { quote: quote.quote },
-//                 { $set: quote },
-//                 { upsert: true }
-//             );
-
-//             // console.log(`Quote added/updated: ${quote.quote}`);
-//         }
-
-//         console.log('Quotes inserted/updated into MongoDB successfully');
-//     } catch (error) {
-//         console.error('Error inserting/updating quotes into MongoDB:', error);
-//     } finally {
-//         client.close();
-//     }
-// }
-
-// insertQuotesIntoMongoDB()
 
 //server static files
     app.set('view engine', 'ejs')
@@ -130,26 +97,136 @@ app.get('/api/random', async (request, response) => {
     }
 });
 
+// app.put('/addOneLike', (request, response) => {
+//   db.collection('quotes').updateOne(
+//     { _id: request.body._id }, // Access _id directly
+//     {
+//       $inc: {
+//         likes: 1 
+//       },
+//     },
+//   )
+//     .then((result) => {
+//       console.log('Added One Like');
+//       response.json('Like Added');
+//     })
+//     .catch((error) => console.error(error));
+// });
 
-app.put('/addOneLike', (request, response) => {
-    db.collection('quotes').updateOne(
-      { _id: request.body._id }, // Access _id directly
-      {
-        $set: {
-          likes: request.body.likes + 1,
-        },
-      },
-      {
-        sort: { _id: -1 },
-        upsert: true,
-      }
-    )
-      .then((result) => {
-        console.log('Added One Like');
-        response.json('Like Added');
-      })
-      .catch((error) => console.error(error));
-  });
+
+// app.put('/addOneLike', (request, response) => {
+//     db.collection('quotes').updateOne(
+//       { _id: request.body._id }, // Access _id directly
+//       {
+//         $set: {
+//           likes: request.body.likes + 1,
+//         },
+//       },
+//       {
+//         sort: { _id: -1 },
+//         upsert: true,
+//       }
+//     )
+//       .then((result) => {
+//         console.log('Added One Like');
+//         response.json('Like Added');
+//       })
+//       .catch((error) => console.error(error));
+//   });
+app.put('/addOneLike', async (request, response) => {
+  try {
+    const quoteId = new ObjectId(request.body._id); // Convert the _id to ObjectId
+
+    const result = await db.collection('quotes').updateOne(
+      { _id: quoteId },
+      { $inc: { likes: 1 } } // Increment the likes by 1
+    );
+
+    if (result.matchedCount === 0) {
+      return response.status(404).json({ error: 'Quote not found' });
+    }
+
+    console.log('Added One Like');
+    response.json({ message: 'Like added' });
+  } catch (error) {
+    console.error('Error adding like:', error);
+    response.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
+
+
+// app.get('/api/quotes', (request, response) => {
+//     response.json(seinfeldQuotes)
+// })
+
+// app.get('/api/random', (request, response)=> {
+//     function getRandom(){
+//         const availableQuotes = seinfeldQuotes.slice();
+//         const randomIndex = Math.floor(Math.random() * availableQuotes.length);
+//         const randomQuote = availableQuotes[randomIndex];
+
+//         return randomQuote;
+//     }
+//     const randomQuote = getRandom();
+//     response.json(randomQuote);
+// })
+
+
+// app.get('/api/:name', (request, response) => {
+//     const rapperName = request.params.name.toLowerCase()
+//     if(rappers[rapperName]){
+//         response.json(rappers[rapperName])
+//     }else{
+//         response.json(rappers['unknown'])
+//     }
+// })
+
+//adding likes to the onjects
+//  let nextId = 1;
+//  const addId = seinfeldQuotes.map(quote => {
+//      givenId = {...quote, id: nextId }
+//      nextId++
+//      return givenId
+//  })
+
+
+//inserting quotes into mongo
+// async function insertQuotesIntoMongoDB() {
+//     const client = new MongoClient(dbConnectionStr, { useUnifiedTopology: true });
+
+//     try {
+//         await client.connect();
+//         const db = client.db(dbName);
+//         const quotesCollection = db.collection('quotes');
+
+//         for (const quote of addLikes) {
+//             // Use the quote field for matching
+//             await quotesCollection.updateOne(
+//                 { quote: quote.quote },
+//                 { $set: quote },
+//                 { upsert: true }
+//             );
+
+//             // console.log(`Quote added/updated: ${quote.quote}`);
+//         }
+
+//         console.log('Quotes inserted/updated into MongoDB successfully');
+//     } catch (error) {
+//         console.error('Error inserting/updating quotes into MongoDB:', error);
+//     } finally {
+//         client.close();
+//     }
+// }
+
+// insertQuotesIntoMongoDB()
+
+
+//older code
     // .then(result => {
     //      console.log('Added One Like')
     //      response.json('Like Added')
@@ -183,35 +260,4 @@ app.put('/addOneLike', (request, response) => {
 //         console.error(error);
 //         response.status(500).json({ error: 'Error updating likes' });
 //       });
-// })
-
-app.listen(process.env.PORT || PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-})
-
-
-// app.get('/api/quotes', (request, response) => {
-//     response.json(seinfeldQuotes)
-// })
-
-// app.get('/api/random', (request, response)=> {
-//     function getRandom(){
-//         const availableQuotes = seinfeldQuotes.slice();
-//         const randomIndex = Math.floor(Math.random() * availableQuotes.length);
-//         const randomQuote = availableQuotes[randomIndex];
-
-//         return randomQuote;
-//     }
-//     const randomQuote = getRandom();
-//     response.json(randomQuote);
-// })
-
-
-// app.get('/api/:name', (request, response) => {
-//     const rapperName = request.params.name.toLowerCase()
-//     if(rappers[rapperName]){
-//         response.json(rappers[rapperName])
-//     }else{
-//         response.json(rappers['unknown'])
-//     }
 // })
