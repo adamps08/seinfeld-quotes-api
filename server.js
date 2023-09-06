@@ -124,10 +124,28 @@ app.put('/addOneLike', async (request, response) => {
   }
 });
 
+//sorting likes for the top ten quotes
+app.get('/api/top-ten', async (request, response) => {
+  try{
+    const quotesCollection = db.collection('quotes2'); 
+    const sortedQuotes = await quotesCollection
+    .find({})
+    .sort({likes: -1})
+    .limit(10)
+    .toArray()
+
+    response.json(sortedQuotes);
+} catch (error) {
+    console.error('Error sorting quotes', error);
+    response.status(500).json({ error: 'Internal server error' });
+}
+});
+
 
 app.listen(process.env.PORT || PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
+
 
 
 

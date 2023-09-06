@@ -12,6 +12,15 @@ section {
     min-height: 100vh; /* Make the section take up at least the viewport height */
 }
 
+/* sections */
+.commentSection {
+    background-color: white;
+}
+
+.topTen *{
+    color: #014196af;
+}
+
 /* Add spacing between elements */
 h1, h2, h3, ul {
     margin: 0; /* Reset margin for perfect centering */
@@ -140,6 +149,6 @@ div {
 }
 @media (max-width: 767px) {
     img {
-        max-width: 100%;
+        max-width: 70%;
     }
 }
