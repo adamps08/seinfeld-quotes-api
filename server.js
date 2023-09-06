@@ -24,11 +24,17 @@ dbConnectionStr = process.env.DB_STRING
 dbName = 'seinfeld-quotes'
 
 
-  MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
-      .then(client => {
-        console.log(`Connected to ${dbName} Database`)
-         db = client.db(dbName)
-      })
+
+
+   MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
+       .then(client => {
+         console.log(`Connected to ${dbName} Database`)
+          db = client.db(dbName)
+       })
+
+
+
+
  // Middleware to ensure a MongoDB connection is available
       const ensureDbConnection = async (req, res, next) => {
          if (!dbClient || !dbClient.isConnected()) {
@@ -75,7 +81,7 @@ app.get('/', (request, response) => {
 
  app.get('/api/quotes', async (request, response) => {
     try {
-        const quotesCollection = db.collection('quotes'); 
+        const quotesCollection = db.collection('quotes2'); 
         const quotesData = await quotesCollection.find({}).toArray();
         response.json(quotesData);
     } catch (error) {
@@ -86,7 +92,7 @@ app.get('/', (request, response) => {
 
 app.get('/api/random', async (request, response) => {
     try {
-        const quotesCollection = db.collection('quotes'); 
+        const quotesCollection = db.collection('quotes2'); 
         const count = await quotesCollection.countDocuments();
         const randomIndex = Math.floor(Math.random() * count);
         const randomQuote = await quotesCollection.findOne({}, { skip: randomIndex });
@@ -97,47 +103,11 @@ app.get('/api/random', async (request, response) => {
     }
 });
 
-// app.put('/addOneLike', (request, response) => {
-//   db.collection('quotes').updateOne(
-//     { _id: request.body._id }, // Access _id directly
-//     {
-//       $inc: {
-//         likes: 1 
-//       },
-//     },
-//   )
-//     .then((result) => {
-//       console.log('Added One Like');
-//       response.json('Like Added');
-//     })
-//     .catch((error) => console.error(error));
-// });
-
-
-// app.put('/addOneLike', (request, response) => {
-//     db.collection('quotes').updateOne(
-//       { _id: request.body._id }, // Access _id directly
-//       {
-//         $set: {
-//           likes: request.body.likes + 1,
-//         },
-//       },
-//       {
-//         sort: { _id: -1 },
-//         upsert: true,
-//       }
-//     )
-//       .then((result) => {
-//         console.log('Added One Like');
-//         response.json('Like Added');
-//       })
-//       .catch((error) => console.error(error));
-//   });
 app.put('/addOneLike', async (request, response) => {
   try {
     const quoteId = new ObjectId(request.body._id); // Convert the _id to ObjectId
 
-    const result = await db.collection('quotes').updateOne(
+    const result = await db.collection('quotes2').updateOne(
       { _id: quoteId },
       { $inc: { likes: 1 } } // Increment the likes by 1
     );
@@ -158,6 +128,8 @@ app.put('/addOneLike', async (request, response) => {
 app.listen(process.env.PORT || PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
+
+
 
 
 // app.get('/api/quotes', (request, response) => {
@@ -261,3 +233,19 @@ app.listen(process.env.PORT || PORT, () => {
 //         response.status(500).json({ error: 'Error updating likes' });
 //       });
 // })
+
+// app.get('/api/random', async (request, response) => {
+//   try {
+//       const quotesCollection = db.collection('quotes'); 
+//       const count = await quotesCollection.countDocuments();
+//       const randomIndex = Math.floor(Math.random() * count);
+
+//       // Filter quotes based on likes (assuming likes >= 0)
+//       const randomQuote = await quotesCollection.findOne({ likes: { $gte: 0 } }, { skip: randomIndex });
+      
+//       response.json(randomQuote);
+//   } catch (error) {
+//       console.error('Error fetching random quote from MongoDB:', error);
+//       response.status(500).json({ error: 'Internal server error' });
+//   }
+// });

@@ -47,19 +47,17 @@ document.querySelector('button').addEventListener('click', getQuote);
 
 async function getQuote() {
   try {
-    // const response = await fetch("http://localhost:8000/api/random");
+    //const response = await fetch("http://localhost:8000/api/random");
     const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
     // const response = await fetch("https://seinfeld-quotes-api.onrender.com/api/random");
     const data = await response.json();
     currentQuoteData = data;
-    currentImg = data.img;
-    console.log(data);
     
     const quoteText = document.querySelector('h2');
     const authorText = document.querySelector('h3');
     const quoteImage = document.getElementById('quoteImage');
-    const quoteLikes = document.getElementById('thumbsUpIcon')
-    const likeAmount = document.querySelector('.likeAmount')
+    const quoteLikes = document.getElementById('thumbsUpIcon');
+    const likeAmount = document.querySelector('.likeAmount');
 
     // Hide the content with transition
     quoteText.style.opacity = 0;
@@ -73,9 +71,14 @@ async function getQuote() {
 
     // Update the content
     quoteText.innerText = data.quote;
+    likeAmount.innerText = data.likes;
+
+    // Always update the author and image
+    currentImg = data.img;
+    currentAuthor = data.name;
+
     document.querySelector('img').src = data.img;
     authorText.innerText = data.name;
-    likeAmount.innerText = data.likes;
 
     // Show the content with transition
     quoteText.style.opacity = 1;
@@ -100,7 +103,7 @@ async function addLike(){
     const currentLikesElement = document.querySelector('.likeAmount');
     let currentLikes = parseInt(currentLikesElement.innerText, 10)
   try{
-      const response = await fetch('https://seinfeld-quotes-api.cyclic.app/addOneLike', {
+      const response = await fetch('http://localhost:8000/addOneLike', {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
