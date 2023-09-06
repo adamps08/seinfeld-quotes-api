@@ -16,9 +16,23 @@ section {
 .commentSection {
     background-color: white;
 }
-
+.topTen{
+    background-color: white;
+}
 .topTen *{
     color: #014196af;
+}
+
+.topTen > ol > li {
+    font-size:1.5rem
+}
+
+.topTen > h2 {
+    font-size:2rem;
+}
+
+.commentSection {
+    height: 10px;
 }
 
 /* Add spacing between elements */
@@ -131,7 +145,7 @@ div {
   font-family: 'Bangers', sans-serif;
 }
 
-.press, h2 {
+.press, h2, li{
     font-family: 'raleway', sans-serif;
 }
 

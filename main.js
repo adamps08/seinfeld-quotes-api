@@ -47,7 +47,7 @@ document.querySelector('button').addEventListener('click', getQuote);
 
 async function getQuote() {
   try {
-   // const response = await fetch("http://localhost:8000/api/random");
+    //const response = await fetch("http://localhost:8000/api/random");
     const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
     const data = await response.json();
     currentQuoteData = data;
@@ -134,35 +134,42 @@ async function addLike(){
     }
 
   likeButton.addEventListener('click', sortLikes);
-  
- async function sortLikes (){
-    try {
-    const response = await fetch ("https://seinfeld-quotes-api.cyclic.app/api/top-ten")
-    const data = await response.json
-      
-    const first = document.querySelector('.top');
-    const second = document.querySelector('.second'); 
-    const third = document.querySelector('.third'); 
-    const fourth = document.querySelector('.fourth'); 
-    const fifth = document.querySelector('.fifth'); 
-    const sixth = document.querySelector('.sixth'); 
-    const seventh = document.querySelector('.seventh'); 
-    const eighth = document.querySelector('.eighth'); 
-    const ninth = document.querySelector('.ninth'); 
-    const tenth = document.querySelector('.tenth'); 
 
-    first.innerText = data[0].quote
-    second.innerText = data[1].quote
-    third.innerText = data[2].quote
-    fourth.innerText = data[3].quote
-    fifth.innerText = data[4].quote
-    sixth.innerText = data[5].quote
-    seventh.innerText = data[6].quote
-    eighth.innerText = data[7].quote
-    ninth.innerText = data[8].quote
-    tenth.innerText = data[9].quote   
-   } catch (error) {
-    console.error("Error fetching and updating top ten quotes:", error);
-   }
-  }
+function sortLikes() {
+  fetch("https://seinfeld-quotes-api.cyclic.app/api/top-ten")
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error(`Network response was not ok (${response.status} - ${response.statusText})`);
+      }
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
 
+      const first = document.querySelector('.top');
+      const second = document.querySelector('.second');
+      const third = document.querySelector('.third');
+      const fourth = document.querySelector('.fourth');
+      const fifth = document.querySelector('.fifth');
+      const sixth = document.querySelector('.sixth');
+      const seventh = document.querySelector('.seventh');
+      const eighth = document.querySelector('.eighth');
+      const ninth = document.querySelector('.ninth');
+      const tenth = document.querySelector('.tenth');
+
+      first.innerText = `${data[0].name}: ${data[0].quote}`;
+      second.innerText = `${data[1].name}: ${data[1].quote}`;
+      third.innerText = `${data[2].name}: ${data[2].quote}`;
+      fourth.innerText = `${data[3].name}: ${data[3].quote}`;
+      fifth.innerText = `${data[4].name}: ${data[4].quote}`;
+      sixth.innerText = `${data[5].name}: ${data[5].quote}`;
+      seventh.innerText = `${data[6].name}: ${data[6].quote}`;
+      eighth.innerText = `${data[7].name}: ${data[7].quote}`;
+      ninth.innerText = `${data[8].name}: ${data[8].quote}`;
+      tenth.innerText = `${data[9].name}: ${data[9].quote}`;
+    })
+    .catch(function (error) {
+      console.error("Error fetching and updating top ten quotes:", error);
+    });
+}
+sortLikes();
