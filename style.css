@@ -131,5 +131,15 @@ div {
     transition: opacity 0.5s ease; /* Add the desired transition properties */
 }
 
+/* media queries */
 
-
+@media (min-width: 768px) and (max-width: 1024px) {
+    img {
+        max-width: 70%;
+    }
+}
+@media (max-width: 767px) {
+    img {
+        max-width: 100%;
+    }
+}
