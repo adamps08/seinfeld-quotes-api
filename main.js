@@ -137,7 +137,7 @@ async function addLike(){
   
  async function sortLikes (){
     try {
-    const response = await fetch ("http://localhost:8000/api/top-ten")
+    const response = await fetch ("https://seinfeld-quotes-api.cyclic.app/api/top-ten")
     const data = await response.json
       
     const first = document.querySelector('.top');
