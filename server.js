@@ -74,9 +74,13 @@ app.get('/style.css', (request, response) => {
 });
 
 
-app.get('/', cors(), (request, response) => {
-    response.sendFile(path.join(__dirname, 'index.html'));
+// app.get('/', (request, response) => {
+//     response.sendFile(path.join(__dirname, 'index.html'));
+// });
+app.get('/', (request, response) => {
+  response.render('index.ejs');
 });
+
 
 
  app.get('/api/quotes', cors(), async (request, response) => {

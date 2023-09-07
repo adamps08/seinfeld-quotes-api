@@ -102,7 +102,7 @@ async function addLike(){
     const currentLikesElement = document.querySelector('.likeAmount');
     let currentLikes = parseInt(currentLikesElement.innerText, 10)
   try{
-      const response = await fetch('https://seinfeld-quotes-api.cyclic.app/addOneLike', {
+      const response = await fetch('http://seinfeld-quotes-api.cyclic.app/addOneLike', {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -136,7 +136,7 @@ async function addLike(){
   likeButton.addEventListener('click', sortLikes);
 
 function sortLikes() {
-  fetch("https://seinfeld-quotes-api.cyclic.app/api/top-ten")
+  fetch("http://seinfeld-quotes-api.cyclic.app/api/top-ten")
     .then(function (response) {
       if (!response.ok) {
         throw new Error(`Network response was not ok (${response.status} - ${response.statusText})`);
@@ -157,16 +157,16 @@ function sortLikes() {
       const ninth = document.querySelector('.ninth');
       const tenth = document.querySelector('.tenth');
 
-      first.innerText = `${data[0].name}: ${data[0].quote}`;
-      second.innerText = `${data[1].name}: ${data[1].quote}`;
-      third.innerText = `${data[2].name}: ${data[2].quote}`;
-      fourth.innerText = `${data[3].name}: ${data[3].quote}`;
-      fifth.innerText = `${data[4].name}: ${data[4].quote}`;
-      sixth.innerText = `${data[5].name}: ${data[5].quote}`;
-      seventh.innerText = `${data[6].name}: ${data[6].quote}`;
-      eighth.innerText = `${data[7].name}: ${data[7].quote}`;
-      ninth.innerText = `${data[8].name}: ${data[8].quote}`;
-      tenth.innerText = `${data[9].name}: ${data[9].quote}`;
+      first.innerText = `${data[0].name}: ${data[0].quote} ${data[0].likes} likes.`;
+      second.innerText = `${data[1].name}: ${data[1].quote} ${data[1].likes} likes.`;
+      third.innerText = `${data[2].name}: ${data[2].quote} ${data[2].likes} likes.`;
+      fourth.innerText = `${data[3].name}: ${data[3].quote} ${data[3].likes} likes.`;
+      fifth.innerText = `${data[4].name}: ${data[4].quote} ${data[4].likes} likes.`;
+      sixth.innerText = `${data[5].name}: ${data[5].quote} ${data[5].likes} likes.`;
+      seventh.innerText = `${data[6].name}: ${data[6].quote} ${data[6].likes} likes.`;
+      eighth.innerText = `${data[7].name}: ${data[7].quote} ${data[7].likes} likes.`;
+      ninth.innerText = `${data[8].name}: ${data[8].quote} ${data[8].likes} likes.`;
+      tenth.innerText = `${data[9].name}: ${data[9].quote} ${data[9].likes} likes.`;
     })
     .catch(function (error) {
       console.error("Error fetching and updating top ten quotes:", error);
