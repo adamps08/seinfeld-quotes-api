@@ -74,12 +74,12 @@ app.get('/style.css', (request, response) => {
 });
 
 
-app.get('/', (request, response) => {
+app.get('/', cors(), (request, response) => {
     response.sendFile(path.join(__dirname, 'index.html'));
 });
 
 
- app.get('/api/quotes', async (request, response) => {
+ app.get('/api/quotes', cors(), async (request, response) => {
     try {
         const quotesCollection = db.collection('quotes2'); 
         const quotesData = await quotesCollection.find({}).toArray();
@@ -90,7 +90,7 @@ app.get('/', (request, response) => {
     }
 });
 
-app.get('/api/random', async (request, response) => {
+app.get('/api/random', cors(), async (request, response) => {
     try {
         const quotesCollection = db.collection('quotes2'); 
         const count = await quotesCollection.countDocuments();
@@ -103,7 +103,7 @@ app.get('/api/random', async (request, response) => {
     }
 });
 
-app.put('/addOneLike', async (request, response) => {
+app.put('/addOneLike', cors(), async (request, response) => {
   try {
     const quoteId = new ObjectId(request.body._id); // Convert the _id to ObjectId
 
