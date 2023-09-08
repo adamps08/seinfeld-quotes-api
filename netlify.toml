@@ -1,0 +1,7 @@
+
+[build]
+  command = "npm run build" # Replace with your build command
+  publish = "public" # Replace with your build output directory
+
+[build.environment]
+  NODE_VERSION = "14" # Specify your Node.js version
