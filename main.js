@@ -47,7 +47,7 @@ document.querySelector('button').addEventListener('click', getQuote);
 
 async function getQuote() {
   try {
-    //const response = await fetch("http://localhost:8000/api/random");
+    const response = await fetch("http://localhost:8000/api/random");
     const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
     const data = await response.json();
     currentQuoteData = data;
@@ -173,3 +173,5 @@ function sortLikes() {
     });
 }
 sortLikes();
+
+

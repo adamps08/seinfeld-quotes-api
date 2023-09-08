@@ -77,9 +77,29 @@ app.get('/style.css', (request, response) => {
 // app.get('/', (request, response) => {
 //     response.sendFile(path.join(__dirname, 'index.html'));
 // });
-app.get('/', (request, response) => {
-  response.render('index.ejs');
-});
+
+// app.get('/', (request, response) => {
+//   response.render('index.ejs');
+// });
+
+app.get('/',(request, response)=>{
+  db.collection('comments')
+    .find()
+    .sort({likes: -1})
+    .toArray()
+    .then(comments => {
+        if (comments.length === 0){
+          response.render('index.ejs', {noComments: true})
+        }else{ 
+          response.render('index.ejs', { comments, noComments: false })
+        }
+    })
+    .catch(error => {
+      console.error(error);
+      response.status(500).send('Error retrieving comments')
+    })
+})
+
 
 
 
@@ -145,6 +165,27 @@ app.get('/api/top-ten', async (request, response) => {
 }
 });
 
+//comment schema
+
+//posting comments
+app.post('/post-comment', (request, response) => {
+  const currentTime = new Date()
+  const comment = {
+    name: 'Anonymous',
+    text: request.body.text, 
+    likes: 0, 
+    date: currentTime,
+  }
+
+  db.collection('comments').insertOne(comment)
+  .then(result => {
+      console.log('comment posted successfully')
+      response.redirect('/')
+  })
+  .catch(error =>{  console.error(error)
+    response.status(500).send('Error posting comment')
+  })
+})
 
 app.listen(process.env.PORT || PORT, () => {
     console.log(`Server running on port ${PORT}`)
