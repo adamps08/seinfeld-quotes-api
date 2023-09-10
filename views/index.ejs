@@ -58,30 +58,37 @@
                 <li class="tenth"></li>
             </ol>
         </section>
-        <section class = "commentSection">
-            <h2> Comments</h2>
+        <section class="commentSection">
+            <h2>Comments</h2>
             <form action="/post-comment" method="POST">
-                <br>
-                <label for="text">Comment:</label>
-                <textarea id="text" name="text" rows="4" cols="50" required></textarea>
-                <br>
+              <div class="comment-input">
+                <textarea id="text" name="text" rows="4" cols="50" placeholder="Type here to leave a comment" required></textarea>
                 <button type="submit">Submit</button>
+              </div>
             </form>
             <% if (noComments) { %>
-                <p>No comments available.</p>
-              <% } else { %>
-                <ul>
-                  <% comments.forEach(comment => { %>
-                    <li>
-                      <strong><%= comment.name %>:</strong> <%= comment.text %>
-                      <br>
-                      <span>Likes: <%= comment.likes %></span>
-                      <br>
-                      <span>Date: <%= comment.date.toISOString() %></span>
-                    </li>
-                  <% }); %>
-                </ul>
-              <% } %>
+            <p>No comments available.</p>
+            <% } else { %>
+            <ul class="commentList">
+              <% comments.forEach(comment => { %>
+              <li class="comment">
+                        <div class="comment-header">
+                          <div class="comment-name"><%= comment.name %></div>
+                          <div class="comment-date"><%= comment.date.toDateString() %></div>
+                        </div>
+                        <div class="comment-text"><%= comment.text %></div>
+                        <div class = "comment-actions"> 
+                            <div class="comment-likes">
+                            <span><%= comment.likes %> <i class="fa fa-thumbs-up"></i></span>
+                            </div>
+                            <div class = "comment-delete">
+                                <span class='fa fa-trash'></span>
+                            </div>
+                        </div>
+                      </li>
+                      <% }); %>
+                    </ul>
+                    <% } %>
         </section> 
     <script src="main.js"></script>
 

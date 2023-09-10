@@ -94,7 +94,7 @@ h2 {
 
 h3 {
     font-size: 18px;
-    color: #014196af; /* Light gray text color */
+    color: #014196af; 
 }
 
 .likes {
@@ -153,7 +153,143 @@ div {
     opacity: 0; 
     transition: opacity 0.5s ease; /* Add the desired transition properties */
 }
+/*comment sectio*/
 
+.commentSection form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 800px;
+    width: 100%;
+    
+    padding: 0.5rem 0 1rem 0;
+}
+
+/* .commentSection textarea, .commentSection li {
+    flex: 1 1 0%;
+    padding: 0.75rem 0.5rem;
+    background-color:#168386;
+    color: rgb(255, 253, 253);
+    border: 1px solid grey;
+    border-radius: 0.5rem;
+    margin-right: 0.5rem;
+} */
+/* Style the textarea */
+.commentSection textarea, .commentSection li {
+    width: 100%;
+    padding: 10px;
+    /* border: 1px solid #ccc;  */
+    border-radius: 0.5rem;
+    background-color:#69ebf0;
+    color:#666;
+    transition: border-color 0.2s; /* Add a transition effect for border color */
+    outline: none; /* Remove the default focus outline */
+    
+}
+
+/* Style the textarea when it's focused */
+textarea:focus {
+    border-color: #007bff; /* Change the border color when focused (you can use any color you prefer) */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a subtle box shadow when focused */
+}
+
+.commentSection ul {
+    list-style-type: none; /* Removes the bullet points */
+    padding-left: 0;
+}
+
+.commentSection li {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+
+    border-radius: 0.5rem;
+}
+
+.commentSection textarea{ 
+margin-bottom: 10px;
+}
+
+
+/* comment object locations */
+.comment {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 20px; 
+    width: 100%; 
+    max-width: 600px;
+  }
+  
+  .comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .comment-name {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .comment-date {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  
+  .comment-likes {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .comment-delete {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  
+  .comment-text {
+    text-align: center;
+    margin-top: 30px; /* Adjust the margin-top as needed to center the text vertically */
+  }
+
+  .commentList {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .comment-input {
+    display: flex;
+    flex-direction: column;
+  }
+  .comment-actions {
+    /* margin-top: 2rem;  */
+    font-size: 0.8em;
+  }
+  
+  .comment-name {
+    font-style: italic;
+  }
+
+  .comment-date {
+    font-size: 0.8em;
+  }
+
+  .comment-text {
+    margin: 3rem 0;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .comment-likes, .comment-delete {
+    padding:0 .5rem;
+    cursor: pointer;
+  }
+ 
 /* media queries */
 
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -166,3 +302,14 @@ div {
         max-width: 70%;
     }
 }
+
+
+
+
+
+
+  
+
+
+
+  

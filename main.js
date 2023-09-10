@@ -43,12 +43,13 @@ const likeButton = document.querySelector('.fa-thumbs-up')
 let currentQuoteData;
 let currentImg;
 
+
 document.querySelector('button').addEventListener('click', getQuote);
 
 async function getQuote() {
   try {
-    //const response = await fetch("http://localhost:8000/api/random");
-    const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
+    const response = await fetch("http://localhost:8000/api/random");
+   // const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
     const data = await response.json();
     currentQuoteData = data;
     
@@ -102,7 +103,7 @@ async function addLike(){
     const currentLikesElement = document.querySelector('.likeAmount');
     let currentLikes = parseInt(currentLikesElement.innerText, 10)
   try{
-      const response = await fetch('https://seinfeld-quotes-api.cyclic.app/addOneLike', {
+      const response = await fetch('http://localhost:8000/addOneLike', {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -136,7 +137,7 @@ async function addLike(){
   likeButton.addEventListener('click', sortLikes);
 
 function sortLikes() {
-  fetch("https://seinfeld-quotes-api.cyclic.app/api/top-ten")
+  fetch("http://localhost:8000/api/top-ten")
     .then(function (response) {
       if (!response.ok) {
         throw new Error(`Network response was not ok (${response.status} - ${response.statusText})`);
@@ -173,5 +174,4 @@ function sortLikes() {
     });
 }
 sortLikes();
-
 
