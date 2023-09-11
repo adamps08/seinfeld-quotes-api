@@ -1,6 +1,8 @@
 
 // document.querySelector('button').addEventListener('click', getQuote)
 
+// const { name } = require("ejs");
+
 //  function getQuote(){
 
 // 	fetch( "https://seinfeld-quotes-api.glitch.me/api/random")
@@ -175,3 +177,41 @@ function sortLikes() {
 }
 sortLikes();
 
+const deleteButtons = document.querySelectorAll('.fa-trash')
+const commentThumb  = document.querySelectorAll('.commentThumbs')
+
+Array.from(deleteButtons).forEach((element)=>{
+    element.addEventListener('click', deleteComment)
+})
+
+ 
+document.addEventListener('click', function (event) {
+  if (event.target.classList.contains('delete-comment-button')) {
+      const commentElement = event.target.closest('.comment');
+      const commentId = commentElement.getAttribute('data-comment-id');
+      deleteComment(commentId);
+  }
+});
+
+function deleteComment(commentId) {
+  const requestOptions = {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+  };
+
+  fetch(`http://localhost:8000/api/deleteComment/${commentId}`, requestOptions)
+      .then((response) => {
+          if (response.ok) {
+              return response.json();
+          } else {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      })
+      .then((data) => {
+          console.log(data);
+          location.reload();
+      })
+      .catch((error) => {
+          console.error('Fetch Error:', error);
+      });
+}

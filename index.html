@@ -30,6 +30,7 @@
                 <img src="" alt="" id="quoteImage" class="transition-effect" /> 
             <!-- </div>  -->
         </section>
+    
         <section class = "topTen">
             <h2> Top Ten Quotes</h2>
             <ol>
@@ -55,37 +56,8 @@
                 <li class="tenth"></li>
             </ol>
         </section>
-        <section class="commentSection">
-            <h2>Comments</h2>
-            <form action="/post-comment" method="POST">
-              <div class="comment-input">
-                <textarea id="text" class="press" name="text" rows="4" cols="50" placeholder="Type here to leave a comment" required></textarea>
-                <button type="submit" class="bangers-font">Submit</button>
-              </div>
-            </form>
-            <% if (noComments) { %>
-            <p>No comments available.</p>
-            <% } else { %>
-            <ul class="commentList">
-              <% comments.forEach(comment => { %>
-                     <li class="comment <%= comment.deleted ? 'hidden' : '' %>" data-comment-id="<%= comment._id %>">
-                        <div class="comment-header">
-                          <div class="comment-name"><%= comment.name %></div>
-                          <div class="comment-date"><%= comment.date.toDateString() %></div>
-                        </div>
-                        <div class="comment-text press"><%= comment.text %></div>
-                        <div class = "comment-actions"> 
-                            <div class="comment-likes">
-                            <span><%= comment.likes %> <i class="fa fa-thumbs-up"></i></span>
-                            </div>
-                            <div class = "comment-delete">
-                                <span class='delete-comment-button fa fa-trash'></span>
-                            </div>
-                        </div>
-                      </li>
-                      <% }); %>
-                    </ul>
-                    <% } %>
+        <section class = "commentSection">
+            <h2> Comments</h2>
         </section> 
     <script src="main.js"></script>
 
@@ -93,3 +65,8 @@
 </html> 
 <!-- https://fonts.googleapis.com/css2?family=Bangers|Press+Start+2P|Freckle+Face|Luckiest+Guy|Fredoka+One&display=swap" -->
 
+<!-- <%  comments.forEach(comment => { %>
+    <li>
+        <strong><%= comment.author %>:</strong> <%= comment.text %>
+    </li>
+<% }); %> -->

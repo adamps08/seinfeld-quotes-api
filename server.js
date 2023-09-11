@@ -187,6 +187,17 @@ app.post('/post-comment', (request, response) => {
   })
 })
 
+app.delete('/api/deleteComment/:commentId', (request, response) => {
+  const commentId = request.params.commentId
+  db.collection('comments').deleteOne({_id: commentId})
+  .then(result => {
+      console.log('Comment Deleted')
+      response.json('Comment Deleted')
+  })
+  .catch(error => console.error(error))
+
+})
+
 app.listen(process.env.PORT || PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })

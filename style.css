@@ -99,6 +99,7 @@ h3 {
 
 .likes {
     color: #666;
+    cursor: pointer;
 }
 
  #thumbsUpIcon:hover{
@@ -254,7 +255,8 @@ margin-bottom: 10px;
   
   .comment-text {
     text-align: center;
-    margin-top: 30px; /* Adjust the margin-top as needed to center the text vertically */
+    margin-top: 30px; 
+    color: #014196af; 
   }
 
   .commentList {
