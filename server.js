@@ -187,16 +187,42 @@ app.post('/post-comment', (request, response) => {
   })
 })
 
-app.delete('/api/deleteComment/:commentId', (request, response) => {
-  const commentId = request.params.commentId
-  db.collection('comments').deleteOne({_id: commentId})
-  .then(result => {
-      console.log('Comment Deleted')
-      response.json('Comment Deleted')
-  })
-  .catch(error => console.error(error))
+// app.delete('/api/deleteComment/:commentId', (request, response) => {
+//   const commentId = request.params.commentId
+//   db.collection('comments').deleteOne({_id: commentId})
+//   .then(result => {
+//       console.log('Comment Deleted')
+//       response.json('Comment Deleted')
+//   })
+//   .catch(error => console.error(error))
 
-})
+// })
+
+
+app.delete('/api/deleteComment/:commentId', (request, response) => {
+  const commentId = request.params.commentId;
+  try {
+    const objectIdCommentId = new ObjectId(commentId);
+    db.collection('comments')
+      .deleteOne({ _id: objectIdCommentId })
+      .then(result => {
+        if (result.deletedCount === 1) {
+          console.log('Comment Deleted');
+          response.json('Comment Deleted');
+        } else {
+          console.log('Comment not found');
+          response.status(404).json('Comment not found');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        response.status(500).send('Error deleting comment');
+      });
+  } catch (error) {
+    console.error('Invalid commentId:', error);
+    response.status(400).json('Invalid commentId');
+  }
+});
 
 app.listen(process.env.PORT || PORT, () => {
     console.log(`Server running on port ${PORT}`)

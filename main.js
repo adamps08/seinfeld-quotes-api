@@ -180,9 +180,7 @@ sortLikes();
 const deleteButtons = document.querySelectorAll('.fa-trash')
 const commentThumb  = document.querySelectorAll('.commentThumbs')
 
-Array.from(deleteButtons).forEach((element)=>{
-    element.addEventListener('click', deleteComment)
-})
+
 
  
 document.addEventListener('click', function (event) {
@@ -194,24 +192,28 @@ document.addEventListener('click', function (event) {
 });
 
 function deleteComment(commentId) {
+  const confirmation = window.confirm('Are you sure you want to delete this comment?');
+  if (!confirmation) {
+    return; 
+  }
   const requestOptions = {
       method: 'DELETE',
       headers: {'Content-Type': 'application/json'},
   };
 
   fetch(`http://localhost:8000/api/deleteComment/${commentId}`, requestOptions)
-      .then((response) => {
-          if (response.ok) {
-              return response.json();
-          } else {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-      })
-      .then((data) => {
-          console.log(data);
-          location.reload();
-      })
-      .catch((error) => {
-          console.error('Fetch Error:', error);
-      });
+  .then((response) => {
+    if (response.ok) {
+      const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
+      if (commentElement) {
+        commentElement.remove();
+      }
+      console.log('Comment Deleted');
+    } else {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  })
+  .catch((error) => {
+    console.error('Fetch Error:', error);
+  });
 }
