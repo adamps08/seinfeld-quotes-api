@@ -129,15 +129,36 @@ app.get('/api/random', cors(), async (request, response) => {
 
 app.put('/addOneLike', cors(), async (request, response) => {
   try {
-    const quoteId = new ObjectId(request.body._id); // Convert the _id to ObjectId
+    const quoteId = new ObjectId(request.body._id); 
 
     const result = await db.collection('quotes2').updateOne(
       { _id: quoteId },
-      { $inc: { likes: 1 } } // Increment the likes by 1
+      { $inc: { likes: 1 } }
     );
 
     if (result.matchedCount === 0) {
       return response.status(404).json({ error: 'Quote not found' });
+    }
+
+    console.log('Added One Like');
+    response.json({ message: 'Like added' });
+  } catch (error) {
+    console.error('Error adding like:', error);
+    response.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.put('/addCommentLike', cors(), async (request, response) => {
+  try {
+    const commentId = new ObjectId(request.body._id); 
+
+    const result = await db.collection('comments').updateOne(
+      { _id: commentId },
+      { $inc: { likes: 1 } } 
+    );
+
+    if (result.matchedCount === 0) {
+      return response.status(404).json({ error: 'Comment not found' });
     }
 
     console.log('Added One Like');
@@ -349,3 +370,5 @@ app.listen(process.env.PORT || PORT, () => {
 //       response.status(500).json({ error: 'Internal server error' });
 //   }
 // });
+
+

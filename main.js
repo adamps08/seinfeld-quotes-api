@@ -50,8 +50,8 @@ document.querySelector('button').addEventListener('click', getQuote);
 
 async function getQuote() {
   try {
-    const response = await fetch("http://localhost:8000/api/random");
-   // const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
+   // const response = await fetch("http://localhost:8000/api/random");
+   const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
     const data = await response.json();
     currentQuoteData = data;
     
@@ -105,7 +105,7 @@ async function addLike(){
     const currentLikesElement = document.querySelector('.likeAmount');
     let currentLikes = parseInt(currentLikesElement.innerText, 10)
   try{
-      const response = await fetch('http://localhost:8000/addOneLike', {
+      const response = await fetch('https://seinfeld-quotes-api.cyclic.app/addOneLike', {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -122,7 +122,6 @@ async function addLike(){
           console.log(data);
 
           if (data.message === 'Like added') {
-            // Increment the current likes in the DOM by 1
             const currentLikes = parseInt(currentLikesElement.innerText, 10);
             currentLikesElement.innerText = currentLikes + 1;
           } else {
@@ -139,7 +138,7 @@ async function addLike(){
   likeButton.addEventListener('click', sortLikes);
 
 function sortLikes() {
-  fetch("http://localhost:8000/api/top-ten")
+  fetch("https://seinfeld-quotes-api.cyclic.app/api/top-ten")
     .then(function (response) {
       if (!response.ok) {
         throw new Error(`Network response was not ok (${response.status} - ${response.statusText})`);
@@ -180,7 +179,39 @@ sortLikes();
 const deleteButtons = document.querySelectorAll('.fa-trash')
 const commentThumb  = document.querySelectorAll('.commentThumbs')
 
+async function addCommentLike(){
+  const currentId = commentData._id;
+  const commentLikesElement = document.querySelector('.likeAmount');
+  let currentLikes = parseInt(currentLikesElement.innerText, 10)
+try{
+    const response = await fetch('https://seinfeld-quotes-api.cyclic.app/addCommentLike', {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          '_id': commentId,
+          'text': commentQuote,
+          'likes': currentLikes,
+          'date': currentDate,
+        })
+      })
 
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+
+        if (data.message === 'Like added') {
+          const currentLikes = parseInt(currentLikesElement.innerText, 10);
+          currentLikesElement.innerText = currentLikes + 1;
+        } else {
+          console.log('Response message is not as expected.');
+        }
+      } else {
+        console.log('Response status is not OK.');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
  
 document.addEventListener('click', function (event) {
@@ -201,7 +232,7 @@ function deleteComment(commentId) {
       headers: {'Content-Type': 'application/json'},
   };
 
-  fetch(`http://localhost:8000/api/deleteComment/${commentId}`, requestOptions)
+  fetch(`https://seinfeld-quotes-api.cyclic.app/api/deleteComment/${commentId}`, requestOptions)
   .then((response) => {
     if (response.ok) {
       const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
