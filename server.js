@@ -220,7 +220,7 @@ app.post('/post-comment', (request, response) => {
 // })
 
 
-app.delete('/api/deleteComment/:commentId', (request, response) => {
+app.delete('/deleteComment/:commentId', (request, response) => {
   const commentId = request.params.commentId;
   try {
     const objectIdCommentId = new ObjectId(commentId);
