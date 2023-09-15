@@ -50,8 +50,10 @@ document.querySelector('button').addEventListener('click', getQuote);
 
 async function getQuote() {
   try {
-   // const response = await fetch("http://localhost:8000/api/random");
-   const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
+    //const response = await fetch("http://localhost:8000/api/random");
+   // const response = await fetch("https://seinfeld-quotes-api.cyclic.app/api/random");
+    const response = await fetch("https://seinfeld-quotes.onrender.com/api/random");
+
     const data = await response.json();
     currentQuoteData = data;
     
@@ -105,7 +107,7 @@ async function addLike(){
     const currentLikesElement = document.querySelector('.likeAmount');
     let currentLikes = parseInt(currentLikesElement.innerText, 10)
   try{
-      const response = await fetch('https://seinfeld-quotes-api.cyclic.app/addOneLike', {
+      const response = await fetch('https://seinfeld-quotes.onrender.com/addOneLike', {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -138,7 +140,7 @@ async function addLike(){
   likeButton.addEventListener('click', sortLikes);
 
 function sortLikes() {
-  fetch("https://seinfeld-quotes-api.cyclic.app/api/top-ten")
+  fetch("https://seinfeld-quotes.onrender.com/api/top-ten")
     .then(function (response) {
       if (!response.ok) {
         throw new Error(`Network response was not ok (${response.status} - ${response.statusText})`);
@@ -184,7 +186,7 @@ async function addCommentLike(){
   const commentLikesElement = document.querySelector('.likeAmount');
   let currentLikes = parseInt(currentLikesElement.innerText, 10)
 try{
-    const response = await fetch('https://seinfeld-quotes-api.cyclic.app/addCommentLike', {
+    const response = await fetch('https://seinfeld-quotes.onrender.com/addCommentLike', {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -232,7 +234,7 @@ function deleteComment(commentId) {
       headers: {'Content-Type': 'application/json'},
   };
 
-  fetch(`https://seinfeld-quotes-api.cyclic.app/api/deleteComment/${commentId}`, requestOptions)
+  fetch(`https://seinfeld-quotes.onrender.com/deleteComment/${commentId}`, requestOptions)
   .then((response) => {
     if (response.ok) {
       const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
